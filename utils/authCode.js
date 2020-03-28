@@ -20,7 +20,7 @@ var authcode = function (str, operation, key, expiry){
   var strbuf;                                 //str的base64
   if (operation == 'DECODE') {
     str = str.substr(ckey_length);
-    strbuf = new Buffer(str, 'base64');
+    strbuf = Buffer.from(str, 'base64');
   }
   else {
     expiry = expiry ? expiry + time() : 0;
@@ -34,7 +34,7 @@ var authcode = function (str, operation, key, expiry){
       }
       str = tmpstr + md5(str + keyb).substr(0, 16) + str;
     }
-    strbuf = new Buffer(str);
+    strbuf =  Buffer.from(str);
   }
 
   // 密匙簿

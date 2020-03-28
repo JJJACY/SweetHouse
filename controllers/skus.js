@@ -1,17 +1,18 @@
-const skusModels = require('../modules/produckSkus.js');
+const skusModels = require('../models/skus.js');
 
 const skusControllers ={
   insert: async function(req,res,next){
     let price = req.body.price;
     let number = req.body.number;
     let stock = req.body.stock;
-    if(!price || !number || !stock){
+    let image_url = req.body.image_url;
+    if(!price || !number || !stock || !image_url){
       res.json({
         code: 0,
         message: '缺少参数'
       })
     }try{
-      await skusModels.insert({price,number,stock})
+      await skusModels.insert({price,number,stock,image_url})
       res.json({
         code: 200,
         message:'新增成功'
@@ -24,18 +25,19 @@ const skusControllers ={
       })
     }
   },
-  update: function(req,res,next){
+  update:async function(req,res,next){
     let id = req.params.id;
     let price = req.body.price;
     let number = req.body.number;
     let stock = req.body.stock;
-    if(!price || !number || !stock){
+    let image_url = req.body.image_url;
+    if(!price || !number || !stock || !image_url){
       res.json({
         code: 0,
         message: '缺少参数'
       })
     }try{
-      await skusModels.update(id,{price,number,stock})
+      await skusModels.update(id,{price,number,stock,image_url})
       res.json({
         code: 200,
         message:'修改成功'
@@ -48,7 +50,7 @@ const skusControllers ={
       })
     }
   },
-  delete: function(req,res,next){
+  delete:async function(req,res,next){
     let id = req.params.id;
     try{
       await skusModels.delete(id)

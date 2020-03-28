@@ -30,7 +30,7 @@ const productControllers = {
         message:'服务器错误'
       })
     }
-  },
+  }, 
   single: async function(req,res,next){
     let id = req.params.id;
     try{
@@ -54,8 +54,9 @@ const productControllers = {
     let quill = req.body.quill;
     let classify_id =req.body.classify_id;
     let skus_id = req.body.skus_id;
+    let price_discount = req.body.price_discount;
     let bannerArr = req.body.banner
-    if(!name || !descript || !quill || !classify_id || !skus_id || !bannerArr){
+    if(!name || !descript || !quill || !classify_id || !skus_id || !price_discount || !bannerArr){
       res.json({
         code: 0,
         message:'缺少参数'
@@ -64,7 +65,7 @@ const productControllers = {
     try{
       bannerArr = bannerArr.map(arr =>{return {url: arr.url} })
       let banner =JSON.stringify(bannerArr)
-      await productModels.insert({name,descript,quill,classify_id,banner})
+      await productModels.insert({name,descript,quill,classify_id,banner,price_discount})
       res.json({
         code: 200,
         message:'增加成功'
@@ -142,7 +143,7 @@ const productControllers = {
       })
     }
   },
-  lowshelf: async function(req,res,next){
+  lowershelf: async function(req,res,next){
     let id = req.params.id;
     let status = null;
     try{
@@ -159,8 +160,5 @@ const productControllers = {
       })
     }
   }
-
-
-
 }
 module.exports = productControllers

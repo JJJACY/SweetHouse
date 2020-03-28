@@ -3,13 +3,13 @@ const manageModels = require('../models/manage.js');
 const manageControllers = {
   all: async function(req,res,next){
     try{
-        const all = manageModels.all()
+        const all = await manageModels.all()
         res.json({
           code: 200,
           data: all
         })
     }catch(err){
-      console.log(err)
+      console.log(err,123)
       res.json({
         code: 0,
         message:'服务器错误'
@@ -17,7 +17,7 @@ const manageControllers = {
     }
   },
   single: async function(req,res,next){
-    let id = req.prarms.id;
+    let id = req.params.id;
     try{
       let singles = await manageModels.single(id)
       let single = singles[0]

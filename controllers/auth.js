@@ -1,11 +1,12 @@
-const userModels = require('../models/User.js');
 const manageModels = require('../models/Manage.js');
-
+const authcode = require('../utils/authcode');
+const config = require('../config');
+// const axios = require('axios');
 
 const authControllers = {
-  login: async function(res,req,next){
-    let phone = res.body.phone;
-    let password = res.body.password;
+  login: async function(req,res,next){
+    let phone = req.body.phone;
+    let password = req.body.password;
     if(!phone || !password){
       res.json({
         code: 0,
@@ -14,20 +15,21 @@ const authControllers = {
     }
     try{
       let manages = await manageModels.where({phone,password})
-      if(manages === 0 ){
+      console.log(manages)
+      if(manages.length === 0 ){
         res.json({
           code:0,
           message:'手机或密码错误'
         })
         return
       }
-      let encryption = manager[0].phone+'/t'+manager[0].name+'/t'+manager[0].id
+      let encryption = manages[0].phone+'/t'+manages[0].name+'/t'+manages[0].id
       let token = authcode(encryption,'INCODE')
       res.json({
         code:200,
         data:{
-          name:manager[0].name,
-          status:manager[0].status,
+          name:manages[0].name,
+          status:manages[0].status,
           token,
         }
       })
@@ -41,4 +43,4 @@ const authControllers = {
     
   }
 }
-module.export = authControllers;
+module.exports = authControllers;

@@ -8,6 +8,7 @@ const classifyControllers={
         code:200,
         data: all
       })
+      console.log(all,123)
     }catch(err){
       console.log(err)
       res.json({
@@ -24,7 +25,7 @@ const classifyControllers={
         message:'缺少参数'
       })
     }try{
-      await addressModels.insert({name})
+      await classifyModels.insert({name})
       res.json({
         code: 200,
         message:'增加成功'
@@ -39,7 +40,9 @@ const classifyControllers={
   },
   update: async function(req,res,next){
     let id = req.params.id;
+    console.log(id)
     let name = req.body.name;
+    console.log(name)
     if(!id || !name){
       res.json({
         code:0,
@@ -51,7 +54,6 @@ const classifyControllers={
         code: 200,
         message:'修改成功'
       })
-
     }catch(err){
       console.log(err)
       res.json({
