@@ -1,4 +1,5 @@
 const productModels = require('../models/product.js');
+const skusModels = require('../models/skus.js');
 
 const productControllers = {
   all: async function(req,res,next){
@@ -14,6 +15,8 @@ const productControllers = {
       let product = await productModels.where(params)
         .leftJoin('classify','product.classify_id','classify.id')
         .column("*",{'id':'product.id'},{'name':'product.name'},{'classify_name':'classify.name'})
+        .leftJoin('skus','product.skus_id','skus.id')
+        .column({'skus_id':'skus.id'},{'price':'skus.price'},{'sold':'skus.sold'},{'status':'skus.status'})
         .offset(offset)
         .limit(pageSize)
       let totals = await productModels.where(params)
@@ -63,8 +66,9 @@ const productControllers = {
       })
     }
     try{
-      bannerArr = bannerArr.map(arr =>{return {url: arr.url} })
-      let banner =JSON.stringify(bannerArr)
+        console.log(typeof bannerArr )
+        // bannerArr = bannerArr.map(arr =>{return {url: arr.url} })
+        // let banner =JSON.stringify(bannerArr)
       await productModels.insert({name,descript,quill,classify_id,banner,price_discount})
       res.json({
         code: 200,
@@ -128,15 +132,14 @@ const productControllers = {
   },
   uppershelf: async function(req,res,next){
     let id = req.params.id;
-    let status = null;
     try{
-      await productModels.update(id,{status:0})
+      await skusModels.update(id,{status:0})
       res.json({
         code: 200,
         message:'上架成功'
       })
     }catch(err){
-      console.log(err)
+      console.log(123,err)
       res.json({
         code:0,
         message:'服务器错误'
@@ -145,9 +148,8 @@ const productControllers = {
   },
   lowershelf: async function(req,res,next){
     let id = req.params.id;
-    let status = null;
     try{
-      await productModels.update(id,{status:1})
+      await skusModels.update(id,{status:1})
       res.json({
         code: 200,
         message:'下架成功'

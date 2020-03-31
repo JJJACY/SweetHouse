@@ -10,7 +10,7 @@ const configs = {
     AccessKey: 'ckYYxI4xwp2etJ9okRlLO0tfzaSkm9hoQte2XKNu',
     SecretKey: 't9yqigKlMgw_qmy9lZjyTJZlKPBnSVAkqpciaA6J',
     bucket:'sweet-house',
-    domian: 'q7wbnfs08.bkt.clouddn.com'
+    domain: 'http://q7wbnfs08.bkt.clouddn.com'
   }
 }
 

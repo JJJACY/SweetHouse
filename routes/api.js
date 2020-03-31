@@ -3,6 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 const middleAuth = require('./../middleauth/middleauth');
+const qiniuController = require('../controllers/qiniu');
 const authControllers = require('../controllers/auth');
 const classifyControllers = require('../controllers/classify');
 const manageControllers = require('../controllers/manage');
@@ -17,6 +18,10 @@ const WxproductControllers = require('../controllers/Wxproduct');
 
 //登陆
 router.post('/authLogin',authControllers.login);
+
+//七牛云
+router.get('/qiniu-uploadtoken',qiniuController.uploadToken);
+
 
 //管理员接口
 router.get('/manage',middleAuth,manageControllers.all);
@@ -42,8 +47,8 @@ router.get('/product/:id',middleAuth,productControllers.single);
 router.post('/product',middleAuth,productControllers.insert);
 router.put('/product/:id',middleAuth,productControllers.update);
 router.delete('/product/:id',middleAuth,productControllers.delete);
-router.put('/product/:id',middleAuth,productControllers.uppershelf); //上架
-router.put('/product/:id',middleAuth,productControllers.lowershelf); //下架
+router.put('/product/uppershelf/:id',middleAuth,productControllers.uppershelf); //上架
+router.put('/product/lowershelf/:id',middleAuth,productControllers.lowershelf); //下架
 
 //skus接口
 router.post('/skus',middleAuth,skusControllers.insert);
@@ -54,7 +59,7 @@ router.delete('/skus/:id',middleAuth,skusControllers.delete);
 //banner接口
 router.post('/banner',middleAuth,bannerControllers.insert);
 router.get('/banner',middleAuth,bannerControllers.all);
-router.delete('/banner',middleAuth,bannerControllers.delete);
+router.delete('/banner/:id',middleAuth,bannerControllers.delete);
 
 
 
