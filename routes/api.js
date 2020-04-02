@@ -51,6 +51,7 @@ router.put('/product/uppershelf/:id',middleAuth,productControllers.uppershelf); 
 router.put('/product/lowershelf/:id',middleAuth,productControllers.lowershelf); //下架
 
 //skus接口
+router.get('/skus',middleAuth,skusControllers.all);
 router.post('/skus',middleAuth,skusControllers.insert);
 router.put('/skus/:id',middleAuth,skusControllers.update);
 router.delete('/skus/:id',middleAuth,skusControllers.delete);
