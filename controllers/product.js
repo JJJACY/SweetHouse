@@ -1,9 +1,12 @@
 const productModels = require('../models/product.js');
 const skusModels = require('../models/skus.js');
 
+
 const productControllers = {
   all: async function(req,res,next){
     let classify_id = req.query.classify_id;
+    // let product_skus_id = req.query.product_skus_id;
+    // console.log(product_skus_id)
     let pageSize = req.query.pageSize || 10;
     let nowPage = req.query.nowPage || 1;
     let offset = (nowPage-1)*pageSize;
@@ -11,12 +14,16 @@ const productControllers = {
     if(classify_id){
       params = {'product.classify_id':classify_id}
     }
+    // if(product_skus_id) params.product_skus_id = product_skus_id
+    // console.log(product_skus_id)
     try{
       let product = await productModels.where(params)
         .leftJoin('classify','product.classify_id','classify.id')
-        .column("*",{'id':'product.id'},{'name':'product.name'},{'classify_name':'classify.name'})
-        .leftJoin('skus','product.skus_id','skus.id')
-        .column({'skus_id':'skus.id'},{'price':'skus.price'},{'sold':'skus.sold'},{'status':'skus.status'})
+        // .column("*",{'id':'product.id'},{'name':'product.name'},{'classify_name':'classify.name'})
+        // .column("*")
+        .leftJoin('skus','product.id','skus.product_id')
+        .column({name:'product.name'},{id:'skus.id'},{'price':'skus.price'},{'sold':'skus.sold'},{stock:'skus.stock'},{'status':'skus.status'},{image_url:'skus.image_url'},
+        {price_discount:'product.price_discount'},{classify_name:'classify.name'},{descript:'product.descript'})
         .offset(offset)
         .limit(pageSize)
       let totals = await productModels.where(params)

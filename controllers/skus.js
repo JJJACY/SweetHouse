@@ -30,19 +30,20 @@ const skusControllers ={
     }
   },
   insert: async function(req,res,next){
+    let product_id = req.body.product_id;
     let image_url = req.body.image_url;
     let price = req.body.price;
     let number = req.body.number;
     let stock = req.body.stock;
     let sold = req.body.sold;
     let status = 0;
-    if( !image_url|| !price || !number  || !stock || !sold){
+    if(!product_id || !image_url|| !price || !number  || !stock || !sold){
       res.json({
         code: 0,
         message: '缺少参数'
       })
     }try{
-      await skusModels.insert({price,number,stock,image_url,status})
+      await skusModels.insert({product_id,price,number,stock,image_url,status})
       res.json({
         code: 200,
         message:'新增成功'
@@ -57,19 +58,21 @@ const skusControllers ={
   },
   update:async function(req,res,next){
     let id = req.params.id;
+    let product_id = req.body.product_id;
     let price = req.body.price;
     let number = req.body.number;
     let stock = req.body.stock;
     let sold = req.body.sold
     let image_url = req.body.image_url;
     let status = req.body.status;
-    if(!price || !number || !stock || !image_url || !status || !sold){
+    if(!product_id ||!price || !number || !stock || !image_url || !status || !sold){
       res.json({
         code: 0,
         message: '缺少参数'
       })
+      return
     }try{
-      await skusModels.update(id,{price,number,stock,image_url,status,sold})
+      await skusModels.update(id,{price,number,stock,image_url,status,sold,product_id})
       res.json({
         code: 200,
         message:'修改成功'
