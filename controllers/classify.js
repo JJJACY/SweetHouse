@@ -40,9 +40,7 @@ const classifyControllers={
   },
   update: async function(req,res,next){
     let id = req.params.id;
-    console.log(id)
     let name = req.body.name;
-    console.log(name)
     if(!id || !name){
       res.json({
         code:0,

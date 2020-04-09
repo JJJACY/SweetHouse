@@ -1,4 +1,6 @@
 const userModles = require('../models/user');
+const addressModels = require('../models/address');
+const orderModels = require('../models/order');
 
 const userControllers ={
   all: async function(req,res,next){
@@ -32,9 +34,19 @@ const userControllers ={
     let id = req.params.id;
     try{
       let users = await userModles.single(id);
+      let user =  users[0]
+      let address = await addressModels.where({"user_id":id})
+      // .leftJoin('user','address.user_id','user.id')
+      // .column({located:'address.located'},{nickname:'user.nickname'},{avatar:'user.avatar'},
+      // {descript:'address.descript'},{sex:'user.sex'},{phone:'user.phone'},{default:'address.default'})
+      let order = await orderModels.where({"user_id":id})
       res.json({
         code: 200,
-        data: users[0]
+        data: {
+          user,
+          address,
+          order
+        }
       })
     }catch(err){
       console.log(err)

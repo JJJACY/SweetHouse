@@ -2,24 +2,27 @@ const skusModels = require('../models/skus.js');
 
 const skusControllers ={
   all:async function(req,res,next){
-    let price = req.query.price;
-    let sold = req.query.sold;
-    let pageSize = req.query.pageSize || 10 
+    // let price = req.query.price;
+    // let sold = req.query.sold;
+    let product_id = req.query.product_id;
+    let pageSize = req.query.pageSize || 5
     let nowPage = req.query.nowPage || 1
     let offset = (nowPage-1)*pageSize
     let params = {}
-    if(price) params.price = price;
-    if(sold) params.sold = sold;
+    if(product_id) params.product_id = product_id;
+    // if(price) params.price = price;
+    // if(sold) params.sold = sold;
     try{
       const all =  await skusModels.where(params)
       .offset(offset)
       .limit(pageSize)
-      let totals = await skusModels.where(params)
-      let total = totals.length
+      let total = await skusModels.where(params)
+      .leftJoin('product','skus.product_id','product.id').count({total:'product_id'})
+      // let total = totals.length
       res.json({
         code: 200,
         data: all,
-        total
+        total: total[0].total
       })
     }catch(err){
       console.log(err)
@@ -43,7 +46,7 @@ const skusControllers ={
         message: '缺少参数'
       })
     }try{
-      await skusModels.insert({product_id,price,number,stock,image_url,status})
+      await skusModels.insert({product_id,price,number,stock,image_url,status,sold})
       res.json({
         code: 200,
         message:'新增成功'

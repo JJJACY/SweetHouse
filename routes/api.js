@@ -10,7 +10,8 @@ const manageControllers = require('../controllers/manage');
 const orderControllers = require('../controllers/order');
 const productControllers = require('../controllers/product');
 const skusControllers = require('../controllers/skus');
-const bannerControllers = require('../controllers/banner')
+const bannerControllers = require('../controllers/banner');
+const userControllers = require('../controllers/user');
 const WxaddressControllers = require('../controllers/Wxaddress');
 const WxcartControllers = require('../controllers/Wxcart');
 const WxorderControllers = require('../controllers/Wxorder');
@@ -61,6 +62,10 @@ router.delete('/skus/:id',middleAuth,skusControllers.delete);
 router.post('/banner',middleAuth,bannerControllers.insert);
 router.get('/banner',middleAuth,bannerControllers.all);
 router.delete('/banner/:id',middleAuth,bannerControllers.delete);
+
+//user接口
+router.get('/user',middleAuth,userControllers.all);
+router.get('/user/:id',middleAuth,userControllers.single);
 
 
 
