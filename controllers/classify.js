@@ -44,7 +44,7 @@ const classifyControllers={
     if(!id || !name){
       res.json({
         code:0,
-        message:'服务器错误'
+        message:'缺少参数'
       })
     }try{
       await classifyModels.update(id,{name})

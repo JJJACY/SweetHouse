@@ -31,6 +31,8 @@ const WxaddressControllers={
     let id = req.params.id;
     try{
       const single = await addressModels.where({user_id:id})
+      .leftJoin('user','address.user_id','user.id')
+      .column("*",{id:'address.id'})
       res.json({
         code: 200,
         data: single

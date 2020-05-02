@@ -68,25 +68,27 @@ const skusControllers ={
     let sold = req.body.sold
     let image_url = req.body.image_url;
     let status = req.body.status;
-    if(!product_id ||!price || !number || !stock || !image_url || !status || !sold){
+    if(!product_id || !price || !number || !stock || !image_url || !status || !sold){
       res.json({
         code: 0,
         message: '缺少参数'
       })
-      return
-    }try{
-      await skusModels.update(id,{price,number,stock,image_url,status,sold,product_id})
-      res.json({
-        code: 200,
-        message:'修改成功'
-      })
-    }catch(err){
-      console.log(err)
-      res.json({
-        code: 0,
-        message:'服务器错误'
-      })
+    }else{
+      try{
+        await skusModels.update(id,{product_id,price,number,stock,image_url,status,sold})
+        res.json({
+          code: 200,
+          message:'修改成功'
+        })
+      }catch(err){
+        console.log(err)
+        res.json({
+          code: 0,
+          message:'服务器错误'
+        })
+      }
     }
+    
   },
   delete:async function(req,res,next){
     let id = req.params.id;

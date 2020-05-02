@@ -7,7 +7,7 @@ const productControllers = {
     let classify_id = req.query.classify_id;
     // let product_skus_id = req.query.product_skus_id;
     // console.log(product_skus_id)
-    let pageSize = req.query.pageSize || 8;
+    let pageSize = req.query.pageSize || 6;
     let nowPage = req.query.nowPage || 1;
     let offset = (nowPage-1)*pageSize;
     let params = {}

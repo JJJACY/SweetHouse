@@ -8,7 +8,11 @@ class	Base {
 	//全部数据
 	all() {
 		return knex(this.table).select()
-	}
+  }
+  //返回ID
+  return(params){
+    return knex(this.table).returning('id').insert(params);
+  }
   //增加
 	insert(params){
 		return knex(this.table).insert(params)

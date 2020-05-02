@@ -1,7 +1,8 @@
 const manageModels = require('../models/Manage.js');
+const userModels = require('../models/user');
 const authcode = require('../utils/authcode');
 const config = require('../config');
-// const axios = require('axios');
+const axios = require('axios');
 
 const authControllers = {
   login: async function(req,res,next){
@@ -25,6 +26,7 @@ const authControllers = {
       }
       let encryption = manages[0].phone+'/t'+manages[0].name+'/t'+manages[0].id
       let token = authcode(encryption,'INCODE')
+      console.log(token)
       res.json({
         code:200,
         data:{
@@ -41,6 +43,42 @@ const authControllers = {
       })
     }
     
+  },
+  wxlogin: async function(req,res,next){
+    let appid = config.wechat.appid;
+    let secret = config.wechat.secret;
+    let js_code = req.body.code;
+    let userInfo = req.body.userInfo;
+    try{
+      let data = await axios.get(`https://api.weixin.qq.com/sns/jscode2session?appid=${appid}&secret=${secret}&js_code=${js_code}&grant_type=authorization_code`)
+      let open_id = data.data.openid;
+      if(!open_id || open_id.length !== 28){
+        res.json({
+          code: 0 ,
+          message:'服务器错误'
+        })
+        return
+      }
+      let user = await userModels.where({open_id});
+      let id;
+      if(user[0]){
+        id = user[0].id
+      }else{
+        let userData = await userModels.return({nickname:userInfo.nickName,openid,avatar:userInfo.avatarUrl})
+        id = userData[0];
+      }
+      res.json({
+        code: 200,
+        data: id
+      })
+    }catch(e){
+      console.log(e)
+      res.json({
+        code: 0,
+        message:'服务器错误'
+      })
+
+    }
   }
 }
 module.exports = authControllers;

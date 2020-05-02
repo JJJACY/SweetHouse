@@ -11,6 +11,10 @@ const configs = {
     SecretKey: 't9yqigKlMgw_qmy9lZjyTJZlKPBnSVAkqpciaA6J',
     bucket:'sweet-house',
     domain: 'http://q7wbnfs08.bkt.clouddn.com'
+  },
+  wechat:{
+    appid: 'wx336141c1e0a638b3',
+    secret: '0071daca13068742799a88f603a30f8e'
   }
 }
 

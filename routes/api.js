@@ -12,13 +12,18 @@ const productControllers = require('../controllers/product');
 const skusControllers = require('../controllers/skus');
 const bannerControllers = require('../controllers/banner');
 const userControllers = require('../controllers/user');
+const indexControllers = require('../controllers/index');
+const wxindexControllers = require('../controllers/Wxindex');
+const wxclassifyControllers = require('../controllers/Wxclassify');
 const WxaddressControllers = require('../controllers/Wxaddress');
+
 const WxcartControllers = require('../controllers/Wxcart');
 const WxorderControllers = require('../controllers/Wxorder');
-const WxproductControllers = require('../controllers/Wxproduct');
+const wxproductControllers = require('../controllers/Wxproduct');
 
 //登陆
 router.post('/authLogin',authControllers.login);
+router.post('/auth/wxlogin',authControllers.wxlogin);
 
 //七牛云
 router.get('/qiniu-uploadtoken',qiniuController.uploadToken);
@@ -67,6 +72,8 @@ router.delete('/banner/:id',middleAuth,bannerControllers.delete);
 router.get('/user',middleAuth,userControllers.all);
 router.get('/user/:id',middleAuth,userControllers.single);
 
+//概况页接口
+router.get('/index',middleAuth,indexControllers.all);
 
 
 
@@ -88,16 +95,15 @@ router.get('/user/:id',middleAuth,userControllers.single);
 
 
 //小程序接口
+
+
 //首页
-
-
-
-
-
-
+router.get('/wxbanner',wxindexControllers.allBanner);
+router.get('/wxclassify',wxindexControllers.allClassify);
+router.get('/wxproductall',wxproductControllers.all);
 
 //分类
-
+router.get('/wxClassify/:id',wxclassifyControllers.singleGoods);
 
 
 
@@ -108,23 +114,26 @@ router.get('/user/:id',middleAuth,userControllers.single);
 
 
 //商品接口
-
+router.get('/wxProduct/:id',wxproductControllers.singleProduct);
 
 
 
 //购物车
-
-
-
+router.post('/wxcart',WxcartControllers.insert);
+router.get('/wxcart/:id',WxcartControllers.single);
+router.get('/wxcartskus/:id',WxcartControllers.singleSkus);
 
 
 //收获地址
-// router.post('/Wxaddress',middleAuth,WxaddressControllers.insert);
-// router.get('/Wxaddress/:id',middleAuth,WxaddressControllers.single);
-// router.get('/Wxaddress/:id',middleAuth,WxaddressControllers.default);
-// router.put('/Wxaddress/:id',middleAuth,WxaddressControllers.update);
-// router.delete('/Wxaddress/:id',middleAuth,WxaddressControllers.delete);
+router.post('/wxaddress',WxaddressControllers.insert);
+router.get('/wxaddress/:id',WxaddressControllers.single);
+router.get('/wxaddress/:id',WxaddressControllers.default);
+router.put('/wxaddress/:id',WxaddressControllers.update);
+router.delete('/wxaddress/:id',WxaddressControllers.delete);
 
+//订单
+router.get('/wxorder/:id',WxorderControllers.single);
+router.get('/wxsingleorder/:id',WxorderControllers.singleOrder)
 
 
 
